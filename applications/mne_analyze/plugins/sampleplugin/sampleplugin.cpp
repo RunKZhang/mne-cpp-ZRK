@@ -72,7 +72,7 @@ SamplePlugin::~SamplePlugin()
 
 //=============================================================================================================
 
-QSharedPointer<IPlugin> SamplePlugin::clone() const
+QSharedPointer<AbstractPlugin> SamplePlugin::clone() const
 {
     QSharedPointer<SamplePlugin> pSamplePluginClone = QSharedPointer<SamplePlugin>::create();
     return pSamplePluginClone;
