@@ -44,7 +44,7 @@ Copyright (C) 2017, Christoph Dinh, Lars Debor, Simon Heinke and Matti Hamalaine
 #include "../Plugins/abstractplugin.h"
 #include "communicator.h"
 #include <algorithm>
-
+#include <iostream>
 //=============================================================================================================
 // QT INCLUDES
 //=============================================================================================================
@@ -57,7 +57,7 @@ Copyright (C) 2017, Christoph Dinh, Lars Debor, Simon Heinke and Matti Hamalaine
 //=============================================================================================================
 
 using namespace ANSHAREDLIB;
-
+using namespace std;
 //=============================================================================================================
 // DEFINE MEMBER METHODS
 //=============================================================================================================
@@ -107,6 +107,14 @@ void PluginManager::loadPlugin(const QString& file)
     if(!file.contains(".exp") && !file.contains(".lib"))
     {
         this->setFileName(file);
+        /*
+        bool is_load = this->load();
+        if(!is_load)
+        {
+            std::cout <<(this->errorString()).toStdString()<<std::endl;
+            exit(0);
+        }
+        */
         AbstractPlugin* pPlugin = qobject_cast<AbstractPlugin*>(this->instance());
         if(pPlugin) {
             if(findByName(pPlugin->getName()) == -1)

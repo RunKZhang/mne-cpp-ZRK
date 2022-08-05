@@ -17,13 +17,20 @@
 #include <QtCore/QtPlugin>
 #include <QDebug>
 #include <QPointer>
-
 //=============================================================================================================
 // FORWARD DECLARATIONS
 //=============================================================================================================
 
 namespace ANSHAREDLIB {
     class Communicator;
+}
+
+namespace DISPLIB {
+    class ConnectivitySettingsView;
+}
+
+namespace DISP3DLIB {
+    class NetworkView;
 }
 
 /*
@@ -92,22 +99,16 @@ private:
 
     //=========================================================================================================
     /**
-     * Filter parameters changed
+     * change the metric
      *
-     * @param[in] filterData    The currently active filter.
-     */
-    //void setFilter(const RTPROCESSINGLIB::FilterKernel& filterData);
-
-    //=========================================================================================================
-    /**
-     * Filter avtivated
      *
-     * @param[in] state    The filter on/off flag.
      */
-    //void setFilterActive(bool state);
+    void onconnectivityMetricChanged();
 
     QPointer<ANSHAREDLIB::Communicator>         m_pCommu;               /**< To broadcst signals. */
-    //QPointer<DISPLIB::FilterSettingsView>       m_pFilterSettingsView;
+    QPointer<DISPLIB::ConnectivitySettingsView>       m_pConnectivitySettingsView;
+
+    DISP3DLIB::NetworkView*                             m_pNetworkView;
 
 };
 

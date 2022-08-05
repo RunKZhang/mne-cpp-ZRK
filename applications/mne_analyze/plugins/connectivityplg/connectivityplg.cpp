@@ -7,8 +7,9 @@
 #include <anShared/Management/analyzedata.h>
 #include <anShared/Management/communicator.h>
 #include <anShared/Utils/metatypes.h>
+#include <disp/viewers/connectivitysettingsview.h>
 
-
+#include <disp3D/viewers/networkview.h>
 //=============================================================================================================
 // QT INCLUDES
 //=============================================================================================================
@@ -19,8 +20,11 @@
 
 using namespace ANSHAREDLIB;
 using namespace CONNECTIVITYPLGPLUGIN;
+using namespace DISPLIB;
+using namespace DISP3DLIB;
 
 Connectivityplg::Connectivityplg()
+: m_pConnectivitySettingsView(Q_NULLPTR)
 {
 }
 
@@ -64,15 +68,21 @@ QDockWidget *Connectivityplg::getControl()
 {
 
     //If plugin has dock controls:
+
+    m_pConnectivitySettingsView = new DISPLIB::ConnectivitySettingsView("MNEANALYZE");
+
+
+    //QWidget* pWidget = new QWidget;
+    //QVBoxLayout* pLayout = new QVBoxLayout;
+
+    //pWidget->setLayout(pLayout);
+
+
     QDockWidget* pControlDock = new QDockWidget(getName());
     pControlDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    pControlDock->setWidget(m_pConnectivitySettingsView);
     pControlDock->setObjectName(getName());
 
-    QWidget* pWidget = new QWidget;
-    QVBoxLayout* pLayout = new QVBoxLayout;
-
-    pWidget->setLayout(pLayout);
-    pControlDock->setWidget(pWidget);
 
     return pControlDock;
 
@@ -82,15 +92,17 @@ QDockWidget *Connectivityplg::getControl()
 
 QWidget *Connectivityplg::getView()
 {
-    /*
+
     //If the plugin has a view:
-    QWidget* pPluginView = new QWidget();
-    QVBoxLayout* pViewLayout = new QVBoxLayout();
+    //m_pNetworkView = new DISP3DLIB::NetworkView();
+    //QWidget* pNetworkViewWidget = new QWidget();
+    //QVBoxLayout* pViewLayout = new QVBoxLayout();
 
-    pPluginView->setLayout(pViewLayout);
 
-    return pPluginView;
-*/
+    //pNetworkViewWidget->setLayout(m_pNetworkView);
+
+    //return pNetworkViewWidget;
+
     //If the plugin does not have a view:
     return Q_NULLPTR;
 }
@@ -109,6 +121,14 @@ void Connectivityplg::handleEvent(QSharedPointer<Event> e)
 QVector<EVENT_TYPE> Connectivityplg::getEventSubscriptions(void) const
 {
     QVector<EVENT_TYPE> temp;
-
+    temp.push_back(SELECTED_MODEL_CHANGED);
     return temp;
 }
+//=============================================================================================================
+QString Connectivityplg::getBuildInfo()
+{
+    return QString(CONNECTIVITYPLGPLUGIN::buildDateTime()) + QString(" - ")  + QString(CONNECTIVITYPLGPLUGIN::buildHash());
+}
+//=============================================================================================================
+void Connectivityplg::onconnectivityMetricChanged()
+{}
